@@ -21,7 +21,6 @@ def request_CtprvnRltmMesureDnsty_total():
     city = request.args.get('city')
 
     result = service.request_getCtprvnRltmMesureDnsty(city)
-
     return result
 
 
