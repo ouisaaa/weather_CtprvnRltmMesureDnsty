@@ -1,8 +1,12 @@
-from flask import Flask, request
+from flask import Flask, request,make_response
 from service_API import CtprvnRltmMesureDnstyService
 from service_filtering import Filtering
+from flask_cors import CORS
 
 app = Flask(__name__)
+# CORS(app, resources={r"/CtprvnRltmMesureDnsty*": {"origins": ["http://localhost:5000","http://localhost:3000"], "methods": ["GET"], "allowed_headers": ["Content-Type"]}})
+
+
 service = CtprvnRltmMesureDnstyService()
 service_filtering = Filtering()
 
@@ -14,7 +18,13 @@ def request_CtprvnRltmMesureDnsty():
     result = service.request_getCtprvnRltmMesureDnsty(city)
     resultFilter= service_filtering.filter_response_nei(nei,result)
 
-    return resultFilter
+    response=make_response(resultFilter)
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add('Access-Control-Allow-Headers', "*")
+    response.headers.add('Access-Control-Allow-Methods', "*")
+
+    return response
+
 
 @app.route('/CtprvnRltmMesureDnsty/total',methods=['GET'])
 def request_CtprvnRltmMesureDnsty_total():

@@ -1,4 +1,5 @@
 import json
+from flask import jsonify
 
 class Filtering:
     def filter_response_nei(self, nei, in_json):
@@ -8,4 +9,5 @@ class Filtering:
 
         for data in data["response"]["body"]["items"]:
             if data["stationName"]==nei:
-                return data
+                data["response_source"]="CRMD"
+                return jsonify(data)
